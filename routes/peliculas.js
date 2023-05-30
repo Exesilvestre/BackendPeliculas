@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Op, ValidationError } = require("sequelize");
 
 const db = require("../base-orm/sequelize-init");
 
@@ -13,8 +14,8 @@ router.get("/api/peliculas", async function (req, res, next) {
 
 router.get("/api/peliculas/:id", async function (req, res, next) {
     let data = await db.peliculas.findAll({
-      attributes: ["IdPeliculas", "Nombre", "FechaEstreno"],
-      where: { IdPeliculas: req.params.id },
+      attributes: ["IdPelicula", "Nombre", "FechaEstreno"],
+      where: { IdPelicula: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
     else res.status(404).json({mensaje:'No econtrado!!'})
@@ -41,10 +42,8 @@ router.post("/api/peliculas/", async (req, res) => {
   });
   
 router.put("/api/peliculas/:id", async (req, res) => {
-    
-  
     try {
-      let item = await db.articulos.findOne({
+      let item = await db.peliculas.findOne({
         attributes: [
           "IdPelicula",
           "Nombre",
@@ -53,7 +52,7 @@ router.put("/api/peliculas/:id", async (req, res) => {
         where: { IdPelicula: req.params.id },
       });
       if (!item) {
-        res.status(404).json({ message: "Articulo no encontrado" });
+        res.status(404).json({ message: "Pelicula no encontrado" });
         return;
       }
       item.Nombre = req.body.Nombre;
@@ -74,27 +73,27 @@ router.put("/api/peliculas/:id", async (req, res) => {
 });
   
 router.delete("/api/peliculas/:id", async (req, res) => {
-    let bajaFisica = false;
-    if (bajaFisica) {
-      // baja fisica
-    try{
-        let filasBorradas = await db.articulos.destroy({
-            where: { IdPelicula: req.params.id },
-          });
-          if (filasBorradas == 1) res.sendStatus(200);
-          else res.sendStatus(404);
-    } catch (err) {
-        if (err instanceof ValidationError) {
-          // si son errores de validacion, los devolvemos
-          const messages = err.errors.map((x) => x.message);
-          res.status(400).json(messages);
+  try {
+    let filasBorradas = await db.peliculas.destroy({
+      where: { IdPelicula: req.params.id },
+    });
+    if (filasBorradas === 1) {
+      res.sendStatus(200);
     } else {
-          // si son errores desconocidos, los dejamos que los controle el middleware de errores
-          throw err;
-        }
-      }
+      res.sendStatus(404);
     }
-  });
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      // si son errores de validacion, los devolvemos
+      const messages = err.errors.map((x) => x.message);
+      res.status(400).json(messages);
+    } else {
+      // si son errores desconocidos, los dejamos que los controle el middleware de errores
+      throw err;
+    }
+  }
+});
+
   
 
 module.exports = router;
