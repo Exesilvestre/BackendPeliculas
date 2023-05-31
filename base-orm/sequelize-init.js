@@ -35,6 +35,10 @@ const peliculas = sequelize.define(
           isBefore: new Date().toISOString().split("T")[0],
         },
       },
+    IdDirector: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+    }
   },
   {
     // pasar a mayusculas
