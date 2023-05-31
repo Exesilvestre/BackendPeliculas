@@ -2,12 +2,12 @@ const request = require("supertest");
 const app = require("../index");
 
 const peliculaAlta = {
-    Nombre: "Nueva película1",
+    Nombre: "Nueva película",
     FechaEstreno: "2023-05-09",
 };
   
 const peliculaModificacion = {
-    Nombre: "Película modificada1",
+    Nombre: "Película modificada",
     FechaEstreno: "2023-05-29",
 };
 
@@ -34,7 +34,7 @@ describe("GET /api/peliculas", () => {
 // test route/peliculas/:id GET
 describe("GET /api/peliculas/:id", () => {
     it("Deberia devolver la pelicula con el id 1", async () => {
-      const res = await request(app).get("/api/peliculas/2");
+      const res = await request(app).get("/api/peliculas/1");
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual(
         expect.objectContaining({
@@ -74,7 +74,7 @@ describe("PUT /api/peliculas/:id", () => {
 // test route/articulos/:id DELETE
 describe("DELETE /api/peliculas/:id", () => {
     it("Deberia devolver la pelicula con el id 1 borrado", async () => {
-      const res = await request(app).delete("/api/peliculas/2");
+      const res = await request(app).delete("/api/peliculas/1");
       expect(res.statusCode).toEqual(200);
       
       // baja logica, no se borra realmente
