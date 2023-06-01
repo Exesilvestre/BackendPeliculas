@@ -20,7 +20,7 @@ async function CrearBaseSiNoExiste() {
     };
   if (!existe) {
     await db.run(
-      "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, IdDirector INTEGER NOT NULL);"
+      "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, IdDirector INTEGER NOT NULL, FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector));"
     );
     console.log("tabla PELICULAS creada!");
     await db.run(
