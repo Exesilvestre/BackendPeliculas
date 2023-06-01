@@ -19,6 +19,9 @@ app.use(peliculasRouter);
 const directoresRouter = require("./routes/directores");
 app.use(directoresRouter);
 
+const seriesRouter = require("./routes/series");
+app.use(seriesRouter);
+
 
 // levantar servidor
 if (!module.parent) {   // si no es llamado por otro modulo, es decir, si es el modulo principal -> levantamos el servidor
