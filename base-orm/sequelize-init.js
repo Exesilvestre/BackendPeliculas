@@ -101,9 +101,56 @@ const directores = sequelize.define(
   }
 );
 
+// definicion series
+const series = sequelize.define(
+  "series",
+  {
+    IdSerie: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    Nombre: {
+      type: DataTypes.STRING(30),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Nombre es requerido",
+        },
+        len: {
+          args: [0, 30],
+          msg: "Nombre debe ser tipo carateres, entre 0 y 30 de longitud",
+        },
+      },
+    },
+    FechaEstreno: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          isDate: true,
+          isBefore: new Date().toISOString().split("T")[0],
+        },
+      },
+  },
+  {
+    // pasar a mayusculas
+    hooks: {
+      beforeValidate: function (series, options) {
+        if (typeof series.Nombre === "string") {
+            series.Nombre = series.Nombre.toUpperCase().trim();
+        }
+      },
+    },
+
+    timestamps: false,
+  }
+);
+
 module.exports = {
     sequelize,
     peliculas,
-    directores
+    directores,
+    series
   };
   

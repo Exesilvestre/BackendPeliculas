@@ -76,6 +76,41 @@ async function CrearBaseSiNoExiste() {
       `
     );
   }
+  //series
+  existe = false;
+  let rep = null;
+
+
+  rep = await db.get(
+    "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'series'",
+    []
+  );
+  if (rep.contar > 0) {
+    await db.run(
+      "DROP TABLE IF EXISTS series"
+    )
+  };
+
+  if (!existe) {
+    await db.run(
+      "CREATE table series( IdSerie INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE, IdActor INTEGER);"
+    );
+    console.log("tabla de series creada!");
+    await db.run(`
+    INSERT INTO series (IdSerie, Nombre, FechaEstreno, IdActor)
+    VALUES 
+      (1, "Breaking Bad", "2008-01-20", 1),
+      (2, "Friends", "1994-09-22", 1),
+      (3, "The Big Bang Theory", "2007-09-23", 2),
+      (4, "The Boys", "2019-07-26", 2),
+      (5, "Vikings", "2013-03-03", 3),
+      (6, "The Mandalorian", "2019-11-12", 3),
+      (7, "The Walking Dead", "2010-10-31", 4),
+      (8, "Grey's Anatomy", "2005-03-27", 4),
+      (9, "Gilmore Girls", "2000-10-05", 5),
+      (10, "Lost", "2004-09-22", 5)
+  `);
+}
 
   // cerrar la base
   await db.close();
