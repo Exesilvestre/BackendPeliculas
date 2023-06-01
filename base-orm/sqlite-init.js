@@ -41,6 +41,42 @@ async function CrearBaseSiNoExiste() {
     );
   }
 
+  //directores
+  existe = false;
+  let sql = null;
+
+  sql = await db.get(
+    "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'directores'",
+    []
+  );
+  if (sql.contar > 0) {
+      await db.run(
+        "DROP TABLE IF EXISTS directores"
+      )
+    };
+  if (!existe) {
+    await db.run(
+      "CREATE table directores( IdDirector INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaNacimiento DATE NOT NULL);"
+    );
+    console.log("tabla directores creada!");
+    await db.run(
+      `
+        INSERT INTO directores (IdDirector, Nombre, FechaNacimiento)
+        VALUES 
+          (1, "Genaro", "2001-04-22"),
+          (2, "Joaquin", "2001-03-24"),
+          (3, "Lucas", "2009-02-05"),
+          (4, "Jorge", "1994-08-10"),
+          (5, "Laura", "1997-01-13"),
+          (6, "Valentina", "1992-05-22"),
+          (7, "Amadeo", "2010-01-30"),
+          (8, "Malena", "1999-05-11"),
+          (9, "Morena", "1990-02-05"),
+          (10, "Agustin", "2010-02-15")
+      `
+    );
+  }
+
   // cerrar la base
   await db.close();
 }

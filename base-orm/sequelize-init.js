@@ -54,8 +54,56 @@ const peliculas = sequelize.define(
   }
 );
 
+//directores
+const directores = sequelize.define(
+  "directores",
+  {
+    IdDirector: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    Nombre: {
+      
+      type: DataTypes.STRING(40),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Nombre es requerido",
+        },
+        len: {
+          args: [4, 40],
+          msg: "Nombre debe ser tipo carateres, entre 4 y 40 de longitud",
+        },
+      },
+    },
+    FechaNacimiento: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          isDate: true,
+          isBefore: new Date().toISOString().split("T")[0],
+        },
+      },
+  },
+  {
+    // pasar a mayusculas
+    hooks: {
+      beforeValidate: function (directores, options) {
+        if (typeof directores.Nombre === "string") {
+            directores.Nombre = directores.Nombre.toUpperCase().trim();
+        }
+      },
+    },
+
+    timestamps: false,
+  }
+);
+
 module.exports = {
     sequelize,
-    peliculas
+    peliculas,
+    directores
   };
   
