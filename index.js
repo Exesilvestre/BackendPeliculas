@@ -16,6 +16,9 @@ app.get("/", (req, res) => {
 const peliculasRouter = require("./routes/peliculas");
 app.use(peliculasRouter);
 
+const directoresRouter = require("./routes/directores");
+app.use(directoresRouter);
+
 
 // levantar servidor
 if (!module.parent) {   // si no es llamado por otro modulo, es decir, si es el modulo principal -> levantamos el servidor
