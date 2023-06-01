@@ -146,11 +146,60 @@ const series = sequelize.define(
     timestamps: false,
   }
 );
+const cortos = sequelize.define(
+  "cortos",
+  {
+    idCortos: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    Nombre: {
+      // todo evitar que string autocomplete con espacios en blanco, deberia ser varchar sin espacios
+      type: DataTypes.STRING(30),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Nombre es requerido",
+        },
+        len: {
+          args: [0, 30],
+          msg: "Nombre debe ser tipo carateres, entre 0 y 30 de longitud",
+        },
+      },
+    },
+    FechaEstreno: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          isDate: true,
+          isBefore: new Date().toISOString().split("T")[0],
+        },
+      },
+    IdDirector: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+    }
+  },
+  {
+    // pasar a mayusculas
+    hooks: {
+      beforeValidate: function (cortos, options) {
+        if (typeof cortos.Nombre === "string") {
+            cortos.Nombre = cortos.Nombre.toUpperCase().trim();
+        }
+      },
+    },
 
+    timestamps: false,
+  }
+);
 module.exports = {
     sequelize,
     peliculas,
     directores,
-    series
+    series,
+    cortos
   };
   
