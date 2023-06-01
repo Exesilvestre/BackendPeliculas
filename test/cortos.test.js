@@ -4,11 +4,15 @@ const app = require("../index");
 const cortoAlta = {
     Nombre: "Nuevo corto",
     FechaEstreno: "10/26/2022",
+    IdDirector: 2,
+    IdActor: 3
 };
   
 const cortoModificacion = {
     Nombre: "corto modificado",
     FechaEstreno: "5/15/2023",
+    IdDirector: 2,
+    IdActor: 3
 };  
 
 // test route/cortos GET
@@ -22,6 +26,8 @@ describe("GET /api/cortos", () => {
             idCorto: expect.any(Number),
             Nombre: expect.any(String),
             FechaEstreno: expect.any(String),
+            IdDirector: expect.any(Number),
+            IdActor: expect.any(Number),
           }),
         ])
       );
@@ -41,6 +47,8 @@ describe("GET /api/cortos/:id", () => {
           idCorto: expect.any(Number),
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
+          IdDirector: expect.any(Number),
+          IdActor: expect.any(Number),
         })
       );
     });
@@ -56,6 +64,8 @@ describe("POST /api/cortos", () => {
         expect.objectContaining({
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
+          IdDirector: expect.any(Number),
+          IdActor: expect.any(Number),
         })
       );
     });

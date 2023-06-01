@@ -1,15 +1,19 @@
 const request = require("supertest");
 const app = require("../index");
-const { INTEGER } = require("sequelize");
+
 
 const serieAlta = {
     Nombre: "Nueva serie 1",
     FechaEstreno: "2023-05-09",
+    IdDirector: 1,
+    IdActor: 1
 };
   
 const serieModificacion = {
     Nombre: "Serie modificada 1",
     FechaEstreno: "2023-05-29",
+    IdDirector: 1,
+    IdActor: 1
 };
 
 // test route/articulos GET
@@ -23,7 +27,8 @@ describe("GET /api/series", () => {
             //IdSerie: expect.any(Number),
             Nombre: expect.any(String),
             FechaEstreno: expect.any(String),
-            IdActor: expect.any(),
+            IdDirector: expect.any(Number),
+            IdActor: expect.any(Number),
           }),
         ])
       );
@@ -43,7 +48,8 @@ describe("GET /api/series/:id", () => {
           //IdSerie: expect.any(Number),
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
-          IdActor: expect.any(INTEGER),
+          IdDirector: expect.any(Number),
+          IdActor: expect.any(Number),
         })
       );
     });
@@ -59,7 +65,8 @@ describe("POST /api/series", () => {
         expect.objectContaining({
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
-          IdActor: expect.any(INTEGER),
+          IdDirector: expect.any(Number),
+          IdActor: expect.any(Number),
         })
       );
     });

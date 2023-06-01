@@ -38,6 +38,10 @@ const peliculas = sequelize.define(
     IdDirector: {
       type:DataTypes.INTEGER,
       allowNull: false,
+    },
+    IdActor: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
     }
   },
   {
@@ -85,7 +89,7 @@ const directores = sequelize.define(
           isDate: true,
           isBefore: new Date().toISOString().split("T")[0],
         },
-      },
+      }
   },
   {
     // pasar a mayusculas
@@ -131,7 +135,15 @@ const series = sequelize.define(
           isDate: true,
           isBefore: new Date().toISOString().split("T")[0],
         },
-      },
+    },    
+    IdDirector: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+    },
+    IdActor: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+    }
   },
   {
     // pasar a mayusculas
@@ -178,6 +190,10 @@ const cortos = sequelize.define(
         },
       },
     IdDirector: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+    },
+    IdActor: {
       type:DataTypes.INTEGER,
       allowNull: false,
     }
