@@ -112,6 +112,42 @@ async function CrearBaseSiNoExiste() {
   `);
 }
 
+//cortos
+existe = false;
+let sq = null;
+
+
+sq = await db.get(
+  "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'cortos'",
+  []
+);
+if (sq.contar > 0) {
+  await db.run(
+    "DROP TABLE IF EXISTS cortos"
+  )
+};
+
+if (!existe) {
+  await db.run(
+    "CREATE TABLE cortos (idCorto INT, Nombre VARCHAR(50), FechaEstreno DATE, IdDirector INT);"
+  );
+  console.log("tabla de cortos creada!");
+  await db.run(`
+  INSERT INTO cortos (idCorto, Nombre, FechaEstreno, IdDirector)
+   VALUES
+    (1, 'Uncle Buck', '6/9/2021', 1),
+    (2, 'Broken English', '10/26/2022', 2),
+    (3, 'Thing About My Folks, The', '5/15/2023', 3),
+    (4, 'Bloody Territories (Kôiki bôryoku: ryuuketsu no shima)', '8/22/2020', 4),
+    (5, 'Tobor the Great', '9/26/2020', 5),
+    (6, 'Man Escaped, A (Un  condamné à mort s''est échappé ou Le vent souffle où il veut)', '3/21/2021', 6),
+    (7, 'Mute Witness', '9/3/2021', 7),
+    (8, 'Treasure Island', '5/7/2023', 8),
+    (9, 'Karlsson Brothers (Bröderna Karlsson)', '8/19/2020', 9),
+    (10, 'Crossing, The', '8/8/2020', 10)
+`);
+}
+
   // cerrar la base
   await db.close();
 }
