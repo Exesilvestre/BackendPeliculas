@@ -85,7 +85,11 @@ const directores = sequelize.define(
           isDate: true,
           isBefore: new Date().toISOString().split("T")[0],
         },
-      }
+      },
+    Documento: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
   },
   {
     // pasar a mayusculas
