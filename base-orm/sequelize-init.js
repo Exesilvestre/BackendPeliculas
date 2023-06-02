@@ -36,9 +36,11 @@ const peliculas = sequelize.define(
         },
       },
     CantidadPersonajes: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
   },
+  },
+  {
     // pasar a mayusculas
     hooks: {
       beforeValidate: function (peliculas, options) {
