@@ -56,23 +56,23 @@ async function CrearBaseSiNoExiste() {
     };
   if (!existe) {
     await db.run(
-      "CREATE table directores( IdDirector INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaNacimiento DATE NOT NULL);"
+      "CREATE table directores( IdDirector INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaNacimiento DATE NOT NULL, Documento Integer);"
     );
     console.log("tabla directores creada!");
     await db.run(
       `
-        INSERT INTO directores (IdDirector, Nombre, FechaNacimiento)
+        INSERT INTO directores (IdDirector, Nombre, FechaNacimiento, Documento)
         VALUES 
-          (1, "Genaro", "2001-04-22"),
-          (2, "Joaquin", "2001-03-24"),
-          (3, "Lucas", "2009-02-05"),
-          (4, "Jorge", "1994-08-10"),
-          (5, "Laura", "1997-01-13"),
-          (6, "Valentina", "1992-05-22"),
-          (7, "Amadeo", "2010-01-30"),
-          (8, "Malena", "1999-05-11"),
-          (9, "Morena", "1990-02-05"),
-          (10, "Agustin", "2010-02-15")
+          (1, "Genaro", "2001-04-22", 40295222),
+          (2, "Joaquin", "2001-03-24", 39232423),
+          (3, "Lucas", "2009-02-05", 45125722),
+          (4, "Jorge", "1994-08-10", 33238521),
+          (5, "Laura", "1997-01-13", 35923052),
+          (6, "Valentina", "1992-05-22", 32492583),
+          (7, "Amadeo", "2010-01-30", 45988523),
+          (8, "Malena", "1999-05-11", 42186324),
+          (9, "Morena", "1990-02-05", 31284672),
+          (10, "Agustin", "2010-02-15", 47930532)
       `
     );
   }
