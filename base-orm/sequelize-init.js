@@ -211,11 +211,89 @@ const cortos = sequelize.define(
     timestamps: false,
   }
 );
+
+const actores = sequelize.define(
+  "actores",
+  {
+    IdActor: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    Nombre: {
+      // todo evitar que string autocomplete con espacios en blanco, deberia ser varchar sin espacios
+      type: DataTypes.STRING(30),
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Nombre es requerido",
+        },
+        len: {
+          args: [0, 30],
+          msg: "Nombre debe ser tipo carateres, entre 0 y 30 de longitud",
+        },
+      },
+    },
+    Apellido: {
+        // todo evitar que string autocomplete con espacios en blanco, deberia ser varchar sin espacios
+        type: DataTypes.STRING(30),
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Apellido es requerido",
+          },
+          len: {
+            args: [0, 30],
+            msg: "Apellido debe contener SOLO caracteres, entre 0 y 30 de longitud",
+          },
+        },
+      },
+    FechaNacimiento: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          isDate: true,
+          isBefore: new Date().toISOString().split("T")[0],
+        },
+      },
+      Nacionalidad: {
+        // todo evitar que string autocomplete con espacios en blanco, deberia ser varchar sin espacios
+        type: DataTypes.STRING(30),
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Nacionalidad es requerida",
+          },
+          len: {
+            args: [0, 30],
+            msg: "Nacionalidad debe ser tipo carateres, entre 0 y 30 de longitud",
+          },
+        },
+      },
+    },
+  {
+    // pasar a mayusculas
+    hooks: {
+      beforeValidate: function (actor, options) {
+        if (typeof actor.Nombre === "string") {
+            actor.Nombre = actor.Nombre.toUpperCase().trim();
+        }
+      },
+    },
+
+    timestamps: false,
+  }
+);
+
 module.exports = {
     sequelize,
     peliculas,
     directores,
     series,
-    cortos
+    cortos,
+    actores
   };
   

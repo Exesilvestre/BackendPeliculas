@@ -20,7 +20,7 @@ async function CrearBaseSiNoExiste() {
     };
   if (!existe) {
     await db.run(
-      "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, IdDirector INTEGER NOT NULL, IdActor INTEGER NOT NULL, FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector));"
+      "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, IdDirector INTEGER NOT NULL, IdActor INTEGER NOT NULL, FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector), FOREIGN KEY (IdActor) REFERENCES actores(IdActor));"
     );
     console.log("tabla PELICULAS creada!");
     await db.run(
@@ -93,7 +93,7 @@ async function CrearBaseSiNoExiste() {
 
   if (!existe) {
     await db.run(
-      "CREATE table series( IdSerie INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE,IdDirector INTEGER NOT NULL ,IdActor INTEGER NOT NULL,  FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector));"
+      "CREATE table series( IdSerie INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE,IdDirector INTEGER NOT NULL ,IdActor INTEGER NOT NULL,  FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector),FOREIGN KEY (IdActor) REFERENCES actores(IdActor));"
     );
     console.log("tabla de series creada!");
     await db.run(`
@@ -129,24 +129,68 @@ if (sq.contar > 0) {
 
 if (!existe) {
   await db.run(
-    "CREATE TABLE cortos (idCorto INT, Nombre VARCHAR(50), FechaEstreno DATE, IdDirector INT,IdActor INTEGER NOT NULL,  FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector));"
+    "CREATE TABLE cortos (idCorto INT, Nombre VARCHAR(50), FechaEstreno DATE, IdDirector INTEGER NOT NULL,IdActor INTEGER NOT NULL,  FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector), FOREIGN KEY (IdActor) REFERENCES actores(IdActor));"
   );
   console.log("tabla de cortos creada!");
   await db.run(`
   INSERT INTO cortos (idCorto, Nombre, FechaEstreno, IdDirector, IdActor)
    VALUES
-    (1, 'Uncle Buck', '6/9/2021', 1, 6),
-    (2, 'Broken English', '10/26/2022', 2, 8),
-    (3, 'Thing About My Folks, The', '5/15/2023', 3, 7),
+    (1, 'Uncle Buck', '2021-09-06', 1, 6),
+    (2, 'Broken English', '2022-26-10', 2, 8),
+    (3, 'Thing About My Folks, The', '2023-15-05', 3, 7),
     (4, 'Bloody Territories (Kôiki bôryoku: ryuuketsu no shima)', '8/22/2020', 4, 4),
-    (5, 'Tobor the Great', '9/26/2020', 5, 2),
+    (5, 'Tobor the Great', '2020-26-09', 5, 2),
     (6, 'Man Escaped, A (Un  condamné à mort s''est échappé ou Le vent souffle où il veut)', '3/21/2021', 6, 9),
-    (7, 'Mute Witness', '9/3/2021', 7, 3),
-    (8, 'Treasure Island', '5/7/2023', 8, 4),
-    (9, 'Karlsson Brothers (Bröderna Karlsson)', '8/19/2020', 9, 5),
-    (10, 'Crossing, The', '8/8/2020', 10, 10)
+    (7, 'Mute Witness', '2021-03-09', 7, 3),
+    (8, 'Treasure Island', '2023-07-05', 8, 4),
+    (9, 'Karlsson Brothers (Bröderna Karlsson)', '2020-19-08', 9, 5),
+    (10, 'Crossing, The', '2020-08-08', 10, 10)
 `);
 }
+
+//actores
+existe = false;
+let res1 = null;
+
+res1 = await db.get(
+  "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'actores'",
+  []
+  
+);
+
+if (res1.contar > 0) {
+  await db.run(
+    "DROP TABLE IF EXISTS actores"
+  )
+}
+
+
+if (!existe) {
+  await db.run(
+    "CREATE table actores( IdActor INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT NOT NULL, Apellido TEXT NOT NULL, FechaNacimiento DATE NOT NULL, Nacionalidad TEXT);"
+  );
+  console.log("tabla Actores creada!");
+  await db.run(`
+  INSERT INTO actores (IdActor, Nombre, Apellido, FechaNacimiento, Nacionalidad)
+  VALUES 
+    (1, "Bryan", "Cranston", "1956-03-07", "Estados Unidos"),
+    (2, "Aaron", "Paul", "1979-27-08", "Estados Unidos"),
+    (3, "Giancarlo", "Esposito", "1958-04-26", "Dinamarca"),
+    (4, "Karl", "Urban", "1972-06-07", "Nueva Zelanda"),
+    (5, "Erin", "Moriarty", "1994-06-24", "Estados Unidos"),
+    (6, "Andrew", "Lincoln", "1973-09-14", "Reino Unido"),
+    (7, "Norman", "Reedus", "1969-01-06", "Estados Unidos"),
+    (8, "Travis", "Fimmel", "1979-07-15", "Estados Unidos"),
+    (9, "Katheryn", "Winnick", "1977-12-17", "Canada"),
+    (10, "Owen", "Wilson", "1968-11-18", "Estados Unidos"),
+    (11, "Paul", "Newman", "1925-01-26", "Estados Unidos"),
+    (12, "Rhea", "Seehorn", "1972-05-12", "Estados Unidos"),
+    (13, "Jonathan", "Banks", "1947-01-31", "Estados Unidos"),
+    (14, "Louis", "Hofmann", "1997-06-03", "Alemania"),
+    (15, "Lisa", "Vicari", "1997-02-11", "Alemania")
+`);
+}
+
 
   // cerrar la base
   await db.close();
