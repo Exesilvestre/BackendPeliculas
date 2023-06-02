@@ -20,23 +20,23 @@ async function CrearBaseSiNoExiste() {
     };
   if (!existe) {
     await db.run(
-      "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, IdDirector INTEGER NOT NULL, IdActor INTEGER NOT NULL, FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector), FOREIGN KEY (IdActor) REFERENCES actores(IdActor));"
+      "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, CantidadPersonajes);"
     );
     console.log("tabla PELICULAS creada!");
     await db.run(
       `
-        INSERT INTO peliculas (IdPelicula, Nombre, FechaEstreno, IdDirector, IdActor)
+        INSERT INTO peliculas (IdPelicula, Nombre, FechaEstreno, CantidadPersonajes)
         VALUES 
-          (1, "Cars", "2006-07-31", 1, 2),
-          (2, "Toy Story", "2005-06-20", 2, 5),
-          (3, "Monster Inc", "2006-09-17", 4, 7),
-          (4, "Los increibles", "2008-09-01", 3, 8),
-          (5, "Bichos", "2003-04-15", 6, 1),
-          (6, "Shrek", "2006-03-19", 7, 9),
-          (7, "La era del hielo", "2008-02-31", 10, 6),
-          (8, "Mohana", "2015-01-11", 8, 10),
-          (9, "Megamente", "2006-07-12", 9, 9),
-          (10, "Coco", "2020-03-21", 5, 4)
+          (1, "Cars", "2006-07-31", 6),
+          (2, "Toy Story", "2005-06-20", 12),
+          (3, "Monster Inc", "2006-09-17", 14),
+          (4, "Los increibles", "2008-09-01",7),
+          (5, "Bichos", "2003-04-15", 10),
+          (6, "Shrek", "2006-03-19", 9),
+          (7, "La era del hielo", "2008-02-31", 11),
+          (8, "Mohana", "2015-01-11", 11),
+          (9, "Megamente", "2006-07-12", 12),
+          (10, "Coco", "2020-03-21", 13)
       `
     );
   }
