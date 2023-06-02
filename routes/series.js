@@ -4,31 +4,29 @@ const { Op, ValidationError } = require("sequelize");
 
 const db = require("../base-orm/sequelize-init");
 
-router.get("/api/peliculas", async function (req, res, next) {
-  let data = await db.peliculas.findAll({
-    attributes: ["IdPelicula", "Nombre","FechaEstreno", "CantidadPersonajes"],
+router.get("/api/series", async function (req, res, next) {
+  let data = await db.series.findAll({
+    attributes: ["IdSerie", "Nombre","FechaEstreno"],
   });
   res.json(data);
 });
 
-
-router.get("/api/peliculas/:id", async function (req, res, next) {
-    let data = await db.peliculas.findAll({
-      attributes: ["IdPelicula", "Nombre", "FechaEstreno", "CantidadPersonajes"],
-      where: { IdPelicula: req.params.id },
+router.get("/api/series/:id", async function (req, res, next) {
+    let data = await db.series.findAll({
+      attributes: ["IdSerie", "Nombre", "FechaEstreno"],
+      where: { IdSerie: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
-    else res.status(404).json({mensaje:'No econtrado!!'})
+    else res.status(404).json({mensaje:'No encontrado!'})
   });
 
-router.post("/api/peliculas/", async (req, res) => {
+router.post("/api/series/", async (req, res) => {
     try {
-      let data = await db.peliculas.create({
+      let data = await db.series.create({
         Nombre: req.body.Nombre,
         FechaEstreno: req.body.FechaEstreno,
-        CantidadPersonajes: req.body.CantidadPersonajes,
       });
-      res.status(200).json(data.dataValues); // devolvemos el registro agregado!
+      res.status(200).json(data.dataValues); // devolvemos el registro agregado
     } catch (err) {
       if (err instanceof ValidationError) {
         // si son errores de validacion, los devolvemos
@@ -42,24 +40,22 @@ router.post("/api/peliculas/", async (req, res) => {
     }
   });
   
-router.put("/api/peliculas/:id", async (req, res) => {
+router.put("/api/series/:id", async (req, res) => {
     try {
-      let item = await db.peliculas.findOne({
+      let item = await db.series.findOne({
         attributes: [
-          "IdPelicula",
+          "IdSerie",
           "Nombre",
-          "FechaEstreno",
-          "CantidadPersonajes",
+          "FechaEstreno"
         ],
-        where: { IdPelicula: req.params.id },
+        where: { IdSerie: req.params.id },
       });
       if (!item) {
-        res.status(404).json({ message: "Pelicula no encontrado" });
+        res.status(404).json({ message: "Serie no encontrada" });
         return;
       }
       item.Nombre = req.body.Nombre;
       item.FechaEstreno = req.body.FechaEstreno;
-      item.CantidadPersonajes= req.body.CantidadPersonajes;
       await item.save();
       res.sendStatus(200);
     } catch (err) {
@@ -75,10 +71,10 @@ router.put("/api/peliculas/:id", async (req, res) => {
     }
 });
   
-router.delete("/api/peliculas/:id", async (req, res) => {
+router.delete("/api/series/:id", async (req, res) => {
   try {
-    let filasBorradas = await db.peliculas.destroy({
-      where: { IdPelicula: req.params.id },
+    let filasBorradas = await db.series.destroy({
+      where: { IdSerie: req.params.id },
     });
     if (filasBorradas === 1) {
       res.sendStatus(200);
@@ -100,6 +96,3 @@ router.delete("/api/peliculas/:id", async (req, res) => {
   
 
 module.exports = router;
-
-
- 

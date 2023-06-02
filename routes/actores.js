@@ -1,32 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const { Op, ValidationError } = require("sequelize");
+const { ValidationError } = require("sequelize");
 
 const db = require("../base-orm/sequelize-init");
 
-router.get("/api/peliculas", async function (req, res, next) {
-  let data = await db.peliculas.findAll({
-    attributes: ["IdPelicula", "Nombre","FechaEstreno", "CantidadPersonajes"],
+router.get("/api/actores", async function (req, res, next) {
+  let data = await db.actores.findAll({
+    attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad"],
   });
   res.json(data);
 });
 
 
-router.get("/api/peliculas/:id", async function (req, res, next) {
-    let data = await db.peliculas.findAll({
-      attributes: ["IdPelicula", "Nombre", "FechaEstreno", "CantidadPersonajes"],
-      where: { IdPelicula: req.params.id },
+router.get("/api/actores/:id", async function (req, res, next) {
+    let data = await db.actores.findAll({
+      attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad"],
+      where: { IdActor: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
     else res.status(404).json({mensaje:'No econtrado!!'})
   });
 
-router.post("/api/peliculas/", async (req, res) => {
+router.post("/api/actores/", async (req, res) => {
     try {
-      let data = await db.peliculas.create({
+      let data = await db.actores.create({
         Nombre: req.body.Nombre,
-        FechaEstreno: req.body.FechaEstreno,
-        CantidadPersonajes: req.body.CantidadPersonajes,
+        Apellido: req.body.Apellido,
+        FechaNacimiento: req.body.FechaNacimiento,
+        Nacionalidad: req.body.Nacionalidad,
+
       });
       res.status(200).json(data.dataValues); // devolvemos el registro agregado!
     } catch (err) {
@@ -42,24 +44,27 @@ router.post("/api/peliculas/", async (req, res) => {
     }
   });
   
-router.put("/api/peliculas/:id", async (req, res) => {
+router.put("/api/actores/:id", async (req, res) => {
     try {
-      let item = await db.peliculas.findOne({
+      let item = await db.actores.findOne({
         attributes: [
-          "IdPelicula",
+          "IdActor",
           "Nombre",
-          "FechaEstreno",
-          "CantidadPersonajes",
+          "Apellido",
+          "FechaNacimiento",
+          "Nacionalidad"
         ],
-        where: { IdPelicula: req.params.id },
+        where: { IdActor: req.params.id },
       });
       if (!item) {
-        res.status(404).json({ message: "Pelicula no encontrado" });
+        res.status(404).json({ message: "Actor no encontrado" });
         return;
       }
       item.Nombre = req.body.Nombre;
-      item.FechaEstreno = req.body.FechaEstreno;
-      item.CantidadPersonajes= req.body.CantidadPersonajes;
+      item.Apellido = req.body.Apellido;
+      item.FechaNacimiento = req.body.FechaNacimiento;
+      item.Nacionalidad = req.body.Nacionalidad;
+
       await item.save();
       res.sendStatus(200);
     } catch (err) {
@@ -75,10 +80,10 @@ router.put("/api/peliculas/:id", async (req, res) => {
     }
 });
   
-router.delete("/api/peliculas/:id", async (req, res) => {
+router.delete("/api/actores/:id", async (req, res) => {
   try {
-    let filasBorradas = await db.peliculas.destroy({
-      where: { IdPelicula: req.params.id },
+    let filasBorradas = await db.actores.destroy({
+      where: { IdActor: req.params.id },
     });
     if (filasBorradas === 1) {
       res.sendStatus(200);

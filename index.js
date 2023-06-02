@@ -13,9 +13,20 @@ app.get("/", (req, res) => {
   res.send("Backend inicial dds-backend!");
 });
 
+const actoresRouter = require("./routes/actores");
+app.use(actoresRouter);
+
 const peliculasRouter = require("./routes/peliculas");
 app.use(peliculasRouter);
 
+const directoresRouter = require("./routes/directores");
+app.use(directoresRouter);
+
+const seriesRouter = require("./routes/series");
+app.use(seriesRouter);
+
+const cortosRouter = require("./routes/cortos");
+app.use(cortosRouter);
 
 // levantar servidor
 if (!module.parent) {   // si no es llamado por otro modulo, es decir, si es el modulo principal -> levantamos el servidor

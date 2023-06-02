@@ -4,31 +4,30 @@ const { Op, ValidationError } = require("sequelize");
 
 const db = require("../base-orm/sequelize-init");
 
-router.get("/api/peliculas", async function (req, res, next) {
-  let data = await db.peliculas.findAll({
-    attributes: ["IdPelicula", "Nombre","FechaEstreno", "CantidadPersonajes"],
+router.get("/api/directores", async function (req, res, next) {
+  let data = await db.directores.findAll({
+    attributes: ["IdDirector", "Nombre","FechaNacimiento"],
   });
   res.json(data);
 });
 
 
-router.get("/api/peliculas/:id", async function (req, res, next) {
-    let data = await db.peliculas.findAll({
-      attributes: ["IdPelicula", "Nombre", "FechaEstreno", "CantidadPersonajes"],
-      where: { IdPelicula: req.params.id },
+router.get("/api/directores/:id", async function (req, res, next) {
+    let data = await db.directores.findAll({
+      attributes: ["IdDirector", "Nombre", "FechaNacimiento"],
+      where: { IdDirector: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
     else res.status(404).json({mensaje:'No econtrado!!'})
   });
 
-router.post("/api/peliculas/", async (req, res) => {
+router.post("/api/directores/", async (req, res) => {
     try {
-      let data = await db.peliculas.create({
+      let data = await db.directores.create({
         Nombre: req.body.Nombre,
-        FechaEstreno: req.body.FechaEstreno,
-        CantidadPersonajes: req.body.CantidadPersonajes,
+        FechaNacimiento: req.body.FechaNacimiento,
       });
-      res.status(200).json(data.dataValues); // devolvemos el registro agregado!
+      res.status(200).json(data.dataValues);
     } catch (err) {
       if (err instanceof ValidationError) {
         // si son errores de validacion, los devolvemos
@@ -42,24 +41,22 @@ router.post("/api/peliculas/", async (req, res) => {
     }
   });
   
-router.put("/api/peliculas/:id", async (req, res) => {
+router.put("/api/directores/:id", async (req, res) => {
     try {
-      let item = await db.peliculas.findOne({
+      let item = await db.directores.findOne({
         attributes: [
-          "IdPelicula",
+          "IdDirector",
           "Nombre",
-          "FechaEstreno",
-          "CantidadPersonajes",
+          "FechaNacimiento"
         ],
-        where: { IdPelicula: req.params.id },
+        where: { IdDirector: req.params.id },
       });
       if (!item) {
-        res.status(404).json({ message: "Pelicula no encontrado" });
+        res.status(404).json({ message: "Director no encontrado" });
         return;
       }
       item.Nombre = req.body.Nombre;
-      item.FechaEstreno = req.body.FechaEstreno;
-      item.CantidadPersonajes= req.body.CantidadPersonajes;
+      item.FechaNacimiento = req.body.FechaNacimiento;
       await item.save();
       res.sendStatus(200);
     } catch (err) {
@@ -75,10 +72,10 @@ router.put("/api/peliculas/:id", async (req, res) => {
     }
 });
   
-router.delete("/api/peliculas/:id", async (req, res) => {
+router.delete("/api/directores/:id", async (req, res) => {
   try {
-    let filasBorradas = await db.peliculas.destroy({
-      where: { IdPelicula: req.params.id },
+    let filasBorradas = await db.directores.destroy({
+      where: { IdDirector: req.params.id },
     });
     if (filasBorradas === 1) {
       res.sendStatus(200);
@@ -87,19 +84,12 @@ router.delete("/api/peliculas/:id", async (req, res) => {
     }
   } catch (err) {
     if (err instanceof ValidationError) {
-      // si son errores de validacion, los devolvemos
       const messages = err.errors.map((x) => x.message);
       res.status(400).json(messages);
     } else {
-      // si son errores desconocidos, los dejamos que los controle el middleware de errores
       throw err;
     }
   }
 });
 
-  
-
 module.exports = router;
-
-
- 
