@@ -13,6 +13,9 @@ app.get("/", (req, res) => {
   res.send("Backend inicial dds-backend!");
 });
 
+const actoresRouter = require("./routes/actores");
+app.use(actoresRouter);
+
 const peliculasRouter = require("./routes/peliculas");
 app.use(peliculasRouter);
 
