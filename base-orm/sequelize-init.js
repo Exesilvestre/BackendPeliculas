@@ -35,16 +35,10 @@ const peliculas = sequelize.define(
           isBefore: new Date().toISOString().split("T")[0],
         },
       },
-    IdDirector: {
+    CantidadPersonajes: {
       type:DataTypes.INTEGER,
-      allowNull: false,
-    },
-    IdActor: {
-      type:DataTypes.INTEGER,
-      allowNull: false,
-    }
+      allowNull: false
   },
-  {
     // pasar a mayusculas
     hooks: {
       beforeValidate: function (peliculas, options) {
