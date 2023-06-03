@@ -5,15 +5,13 @@ const app = require("../index");
 const serieAlta = {
     Nombre: "Nueva serie 1",
     FechaEstreno: "2023-05-09",
-    IdDirector: 1,
-    IdActor: 1
+    CantTemporadas: 3
 };
   
 const serieModificacion = {
     Nombre: "Serie modificada 1",
     FechaEstreno: "2023-05-29",
-    IdDirector: 1,
-    IdActor: 1
+    CantTemporadas: 10
 };
 
 // test route/articulos GET
@@ -27,8 +25,7 @@ describe("GET /api/series", () => {
             //IdSerie: expect.any(Number),
             Nombre: expect.any(String),
             FechaEstreno: expect.any(String),
-            IdDirector: expect.any(Number),
-            IdActor: expect.any(Number),
+            CantTemporadas: expect.any(Number),
           }),
         ])
       );
@@ -48,8 +45,7 @@ describe("GET /api/series/:id", () => {
           //IdSerie: expect.any(Number),
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
-          IdDirector: expect.any(Number),
-          IdActor: expect.any(Number),
+          CantTemporadas: expect.any(Number),
         })
       );
     });
@@ -65,8 +61,7 @@ describe("POST /api/series", () => {
         expect.objectContaining({
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
-          IdDirector: expect.any(Number),
-          IdActor: expect.any(Number),
+          CantTemporadas: expect.any(Number),
         })
       );
     });
