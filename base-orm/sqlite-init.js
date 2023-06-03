@@ -93,22 +93,22 @@ async function CrearBaseSiNoExiste() {
 
   if (!existe) {
     await db.run(
-      "CREATE table series( IdSerie INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE,IdDirector INTEGER NOT NULL ,IdActor INTEGER NOT NULL,  FOREIGN KEY (IdDirector) REFERENCES directores(IdDirector),FOREIGN KEY (IdActor) REFERENCES actores(IdActor));"
+      "CREATE table series( IdSerie INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE,IdDirector INTEGER NOT NULL ,IdActor INTEGER NOT NULL,  CantTemporadas INTEGER NOT NULL);"
     );
     console.log("tabla de series creada!");
     await db.run(`
-    INSERT INTO series (IdSerie, Nombre, FechaEstreno, IdDirector, IdActor)
+    INSERT INTO series (IdSerie, Nombre, FechaEstreno, CantTemporadas)
     VALUES 
-      (1, "Breaking Bad", "2008-01-20", 1, 4),
-      (2, "Friends", "1994-09-22", 1, 7),
-      (3, "The Big Bang Theory", "2007-09-23", 2, 5),
-      (4, "The Boys", "2019-07-26", 2, 6),
-      (5, "Vikings", "2013-03-03", 3, 10),
-      (6, "The Mandalorian", "2019-11-12", 3, 8),
-      (7, "The Walking Dead", "2010-10-31", 4, 9),
-      (8, "Grey's Anatomy", "2005-03-27", 4, 1),
-      (9, "Gilmore Girls", "2000-10-05", 5, 3),
-      (10, "Lost", "2004-09-22", 5, 2)
+      (1, "Breaking Bad", "2008-01-20", 5),
+      (2, "Friends", "1994-09-22", 7),
+      (3, "The Big Bang Theory", "2007-09-23", 7),
+      (4, "The Boys", "2019-07-26", 4),
+      (5, "Vikings", "2013-03-03", 7),
+      (6, "The Mandalorian", "2019-11-12", 3),
+      (7, "The Walking Dead", "2010-10-31", 14),
+      (8, "Grey's Anatomy", "2005-03-27", 18),
+      (9, "Gilmore Girls", "2000-10-05", 8),
+      (10, "Lost", "2004-09-22", 6)
   `);
 }
 
