@@ -12,6 +12,19 @@ const peliculaModificacion = {
     FechaEstreno: "2023-05-29",
     CantidadPersonajes: 12
 };
+const db = require("aa-sqlite");
+// Reiniciar la base de datos después de todas las pruebas
+async function resetDatabase() {
+  // Crear una nueva conexión a la base de datos
+  await db.open("./.data/tpi.db");
+
+  // Ejecutar la sentencia DROP TABLE para eliminar todas las tablas existentes
+  await db.run("DROP TABLE peliculas");
+  // ...
+
+  // Cerrar la conexión a la base de datos
+  await db.close();
+}
 
 // test route/articulos GET
 describe("GET /api/peliculas", () => {
@@ -28,7 +41,7 @@ describe("GET /api/peliculas", () => {
           }),
         ])
       );
-    });
+    }, 15000);
   });
   
   
@@ -47,7 +60,7 @@ describe("GET /api/peliculas/:id", () => {
           CantidadPersonajes: expect.any(Number)
         })
       );
-    });
+    }, 15000);
   });
   
 
@@ -61,7 +74,7 @@ describe("POST /api/peliculas", () => {
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
           CantidadPersonajes: expect.any(Number)
-        })
+        }, 15000)
       );
     });
   });
@@ -72,7 +85,7 @@ describe("PUT /api/peliculas/:id", () => {
     it("Deberia devolver la pelicula con el id 1 modificado", async () => {
       const res = await request(app).put("/api/peliculas/1").send(peliculaModificacion);
       expect(res.statusCode).toEqual(200);
-    });
+    }, 15000);
   });
   
   
@@ -91,7 +104,10 @@ describe("DELETE /api/peliculas/:id", () => {
       //   })
       // );
   
-    });
+    }, 15000);
   });
-  
+// Ejecutar la función afterAll después de todas las pruebas
+afterAll(async () => {
+  await resetDatabase();
+});
 

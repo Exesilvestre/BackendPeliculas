@@ -13,11 +13,7 @@ async function CrearBaseSiNoExiste() {
     "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'peliculas'",
     []
   );
-  if (res.contar > 0) {
-      await db.run(
-        "DROP TABLE IF EXISTS peliculas"
-      )
-    };
+  if (res.contar > 0) existe = true;
   if (!existe) {
     await db.run(
       "CREATE table peliculas( IdPelicula INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, FechaEstreno DATE NOT NULL, CantidadPersonajes);"
