@@ -35,14 +35,10 @@ const peliculas = sequelize.define(
           isBefore: new Date().toISOString().split("T")[0],
         },
       },
-    IdDirector: {
-      type:DataTypes.INTEGER,
-      allowNull: false,
-    },
-    IdActor: {
-      type:DataTypes.INTEGER,
-      allowNull: false,
-    }
+    CantidadPersonajes: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+  },
   },
   {
     // pasar a mayusculas
@@ -89,7 +85,11 @@ const directores = sequelize.define(
           isDate: true,
           isBefore: new Date().toISOString().split("T")[0],
         },
-      }
+      },
+    Documento: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
   },
   {
     // pasar a mayusculas
@@ -136,12 +136,8 @@ const series = sequelize.define(
           isBefore: new Date().toISOString().split("T")[0],
         },
     },    
-    IdDirector: {
-      type:DataTypes.INTEGER,
-      allowNull: false,
-    },
-    IdActor: {
-      type:DataTypes.INTEGER,
+    CantTemporadas: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     }
   },
@@ -161,7 +157,7 @@ const series = sequelize.define(
 const cortos = sequelize.define(
   "cortos",
   {
-    idCortos: {
+    IdCorto: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -189,13 +185,9 @@ const cortos = sequelize.define(
           isBefore: new Date().toISOString().split("T")[0],
         },
       },
-    IdDirector: {
-      type:DataTypes.INTEGER,
-      allowNull: false,
-    },
-    IdActor: {
-      type:DataTypes.INTEGER,
-      allowNull: false,
+    duracionMinutos: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     }
   },
   {
@@ -273,6 +265,10 @@ const actores = sequelize.define(
           },
         },
       },
+      Premios: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      }
     },
   {
     // pasar a mayusculas

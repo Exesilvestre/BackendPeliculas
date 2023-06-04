@@ -6,26 +6,27 @@ const db = require("../base-orm/sequelize-init");
 
 router.get("/api/cortos", async function (req, res, next) {
     let data = await db.cortos.findAll({
-      attributes: ["idCorto", "Nombre", "FechaEstreno", "IdDirector"],
+      attributes: ["IdCorto", "Nombre", "FechaEstreno", "duracionMinutos"],
     });
     res.json(data);
   });
   
   
-  router.get("/api/cortos/:id", async function (req, res, next) {
+router.get("/api/cortos/:id", async function (req, res, next) {
       let data = await db.cortos.findAll({
-        attributes: ["idCorto", "Nombre","FechaEstreno","IdDirector"],
-        where: { idCorto: req.params.id },
+        attributes: ["IdCorto", "Nombre","FechaEstreno","duracionMinutos"],
+        where: { IdCorto: req.params.id },
       });
       if (data.length > 0 ) res.json(data[0]);
-      else res.status(404).json({mensaje:'No econtrado!!'})
+      else res.status(404).json({mensaje:'No encontrado!!'})
     });
   
-  router.post("/api/cortos/", async (req, res) => {
+router.post("/api/cortos/", async (req, res) => {
       try {
         let data = await db.cortos.create({
           Nombre: req.body.Nombre,
           FechaEstreno: req.body.FechaEstreno,
+          duracionMinutos: req.body.duracionMinutos
         });
         res.status(200).json(data.dataValues);
       } catch (err) {
@@ -41,15 +42,16 @@ router.get("/api/cortos", async function (req, res, next) {
       }
     });
     
-  router.put("/api/cortos/:id", async (req, res) => {
+router.put("/api/cortos/:id", async (req, res) => {
       try {
         let item = await db.cortos.findOne({
           attributes: [
-            "idCorto",
+            "IdCorto",
             "Nombre",
-            "FechaEstreno"
+            "FechaEstreno",
+            "duracionMinutos"
           ],
-          where: { idCorto: req.params.id },
+          where: { IdCorto: req.params.id },
         });
         if (!item) {
           res.status(404).json({ message: "Corto no encontrado" });
@@ -57,6 +59,7 @@ router.get("/api/cortos", async function (req, res, next) {
         }
         item.Nombre = req.body.Nombre;
         item.FechaEstreno = req.body.FechaEstreno;
+        item.duracionMinutos = req.body.duracionMinutos;
         await item.save();
         res.sendStatus(200);
       } catch (err) {
@@ -72,10 +75,10 @@ router.get("/api/cortos", async function (req, res, next) {
       }
   });
     
-  router.delete("/api/cortos/:id", async (req, res) => {
+router.delete("/api/cortos/:id", async (req, res) => {
     try {
       let filasBorradas = await db.cortos.destroy({
-        where: { idCorto: req.params.id },
+        where: { IdCorto: req.params.id },
       });
       if (filasBorradas === 1) {
         res.sendStatus(200);
@@ -92,4 +95,4 @@ router.get("/api/cortos", async function (req, res, next) {
     }
   });
   
-  module.exports = router;
+module.exports = router;

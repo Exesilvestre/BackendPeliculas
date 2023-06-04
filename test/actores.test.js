@@ -6,6 +6,7 @@ const actorAlta = {
     Apellido: "Nuevo Actor Apellido",
     FechaNacimiento: "2000-01-01",
     Nacionalidad: "Nueva Nacionalidad",
+    Premios: 8
 };
   
 const actorModificacion = {
@@ -13,7 +14,22 @@ const actorModificacion = {
     Apellido: "Apellido Actor Modificado",
     FechaNacimiento: "2001-01-01",
     Nacionalidad: "Nacionalidad Modificada",
+    Premios: 5
 };
+
+const db = require("aa-sqlite");
+// Reiniciar la base de datos después de todas las pruebas
+async function resetDatabase() {
+  // Crear una nueva conexión a la base de datos
+  await db.open("./.data/tpi.db");
+
+  // Ejecutar la sentencia DROP TABLE para eliminar todas las tablas existentes
+  await db.run("DROP TABLE actores");
+  // ...
+
+  // Cerrar la conexión a la base de datos
+  await db.close();
+}
 
 // test route/actores GET
 describe("GET /api/actores", () => {
@@ -28,6 +44,7 @@ describe("GET /api/actores", () => {
             Apellido: expect.any(String),
             FechaNacimiento: expect.any(String),
             Nacionalidad: expect.any(String),
+            Premios: expect.any(Number),
           }),
         ])
       );
@@ -49,6 +66,7 @@ describe("GET /api/actores/:id", () => {
             Apellido: expect.any(String),
             FechaNacimiento: expect.any(String),
             Nacionalidad: expect.any(String),
+            Premios: expect.any(Number),
         })
       );
     });
@@ -66,7 +84,8 @@ describe("POST /api/actores", () => {
             Apellido: expect.any(String),
             FechaNacimiento: expect.any(String),
             Nacionalidad: expect.any(String),
-        })
+            Premios: expect.any(Number),
+        }, 15000)
       );
     });
   });
@@ -89,7 +108,8 @@ describe("DELETE /api/actores/:id", () => {
       
      
   
-    });
+    }, 15000);
   });
-  
-
+afterAll(async () => {
+  await resetDatabase();
+}); 

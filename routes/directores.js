@@ -6,7 +6,7 @@ const db = require("../base-orm/sequelize-init");
 
 router.get("/api/directores", async function (req, res, next) {
   let data = await db.directores.findAll({
-    attributes: ["IdDirector", "Nombre","FechaNacimiento"],
+    attributes: ["IdDirector", "Nombre","FechaNacimiento", "Documento"],
   });
   res.json(data);
 });
@@ -14,7 +14,7 @@ router.get("/api/directores", async function (req, res, next) {
 
 router.get("/api/directores/:id", async function (req, res, next) {
     let data = await db.directores.findAll({
-      attributes: ["IdDirector", "Nombre", "FechaNacimiento"],
+      attributes: ["IdDirector", "Nombre", "FechaNacimiento", "Documento"],
       where: { IdDirector: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
@@ -26,6 +26,7 @@ router.post("/api/directores/", async (req, res) => {
       let data = await db.directores.create({
         Nombre: req.body.Nombre,
         FechaNacimiento: req.body.FechaNacimiento,
+        Documento: req.body.Documento
       });
       res.status(200).json(data.dataValues);
     } catch (err) {
@@ -47,7 +48,8 @@ router.put("/api/directores/:id", async (req, res) => {
         attributes: [
           "IdDirector",
           "Nombre",
-          "FechaNacimiento"
+          "FechaNacimiento",
+          "Documento"
         ],
         where: { IdDirector: req.params.id },
       });
@@ -57,6 +59,7 @@ router.put("/api/directores/:id", async (req, res) => {
       }
       item.Nombre = req.body.Nombre;
       item.FechaNacimiento = req.body.FechaNacimiento;
+      item.Documento = req.body.Documento;
       await item.save();
       res.sendStatus(200);
     } catch (err) {

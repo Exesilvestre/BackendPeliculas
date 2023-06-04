@@ -5,16 +5,28 @@ const app = require("../index");
 const serieAlta = {
     Nombre: "Nueva serie 1",
     FechaEstreno: "2023-05-09",
-    IdDirector: 1,
-    IdActor: 1
+    CantTemporadas: 3
 };
   
 const serieModificacion = {
     Nombre: "Serie modificada 1",
     FechaEstreno: "2023-05-29",
-    IdDirector: 1,
-    IdActor: 1
+    CantTemporadas: 10
 };
+
+const db = require("aa-sqlite");
+// Reiniciar la base de datos después de todas las pruebas
+async function resetDatabase() {
+  // Crear una nueva conexión a la base de datos
+  await db.open("./.data/tpi.db");
+
+  // Ejecutar la sentencia DROP TABLE para eliminar todas las tablas existentes
+  await db.run("DROP TABLE series");
+  // ...
+
+  // Cerrar la conexión a la base de datos
+  await db.close();
+}
 
 // test route/articulos GET
 describe("GET /api/series", () => {
@@ -27,8 +39,7 @@ describe("GET /api/series", () => {
             //IdSerie: expect.any(Number),
             Nombre: expect.any(String),
             FechaEstreno: expect.any(String),
-            IdDirector: expect.any(Number),
-            IdActor: expect.any(Number),
+            CantTemporadas: expect.any(Number),
           }),
         ])
       );
@@ -48,8 +59,7 @@ describe("GET /api/series/:id", () => {
           //IdSerie: expect.any(Number),
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
-          IdDirector: expect.any(Number),
-          IdActor: expect.any(Number),
+          CantTemporadas: expect.any(Number),
         })
       );
     });
@@ -65,8 +75,7 @@ describe("POST /api/series", () => {
         expect.objectContaining({
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
-          IdDirector: expect.any(Number),
-          IdActor: expect.any(Number),
+          CantTemporadas: expect.any(Number),
         })
       );
     });
@@ -99,4 +108,9 @@ describe("DELETE /api/series/:id", () => {
   
     });
   });
+
+  afterAll(async () => {
+    await resetDatabase();
+  });
+  
   

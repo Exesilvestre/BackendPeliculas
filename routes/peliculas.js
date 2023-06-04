@@ -6,7 +6,7 @@ const db = require("../base-orm/sequelize-init");
 
 router.get("/api/peliculas", async function (req, res, next) {
   let data = await db.peliculas.findAll({
-    attributes: ["IdPelicula", "Nombre","FechaEstreno", "IdDirector", "IdActor"],
+    attributes: ["IdPelicula", "Nombre","FechaEstreno", "CantidadPersonajes"],
   });
   res.json(data);
 });
@@ -14,7 +14,7 @@ router.get("/api/peliculas", async function (req, res, next) {
 
 router.get("/api/peliculas/:id", async function (req, res, next) {
     let data = await db.peliculas.findAll({
-      attributes: ["IdPelicula", "Nombre", "FechaEstreno", "IdDirector", "IdActor"],
+      attributes: ["IdPelicula", "Nombre", "FechaEstreno", "CantidadPersonajes"],
       where: { IdPelicula: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
@@ -26,8 +26,7 @@ router.post("/api/peliculas/", async (req, res) => {
       let data = await db.peliculas.create({
         Nombre: req.body.Nombre,
         FechaEstreno: req.body.FechaEstreno,
-        IdDirector: req.body.IdDirector,
-        IdActor: req.body.IdActor
+        CantidadPersonajes: req.body.CantidadPersonajes,
       });
       res.status(200).json(data.dataValues); // devolvemos el registro agregado!
     } catch (err) {
@@ -50,8 +49,7 @@ router.put("/api/peliculas/:id", async (req, res) => {
           "IdPelicula",
           "Nombre",
           "FechaEstreno",
-          "IdDirector",
-          "IdActor"
+          "CantidadPersonajes",
         ],
         where: { IdPelicula: req.params.id },
       });
@@ -61,7 +59,7 @@ router.put("/api/peliculas/:id", async (req, res) => {
       }
       item.Nombre = req.body.Nombre;
       item.FechaEstreno = req.body.FechaEstreno;
-      item.IdDirector = req.body.IdDirector
+      item.CantidadPersonajes= req.body.CantidadPersonajes;
       await item.save();
       res.sendStatus(200);
     } catch (err) {

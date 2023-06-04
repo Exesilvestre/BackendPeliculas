@@ -6,7 +6,7 @@ const db = require("../base-orm/sequelize-init");
 
 router.get("/api/actores", async function (req, res, next) {
   let data = await db.actores.findAll({
-    attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad"],
+    attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad", "Premios"],
   });
   res.json(data);
 });
@@ -14,11 +14,11 @@ router.get("/api/actores", async function (req, res, next) {
 
 router.get("/api/actores/:id", async function (req, res, next) {
     let data = await db.actores.findAll({
-      attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad"],
+      attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad", "Premios"],
       where: { IdActor: req.params.id },
     });
     if (data.length > 0 ) res.json(data[0]);
-    else res.status(404).json({mensaje:'No econtrado!!'})
+    else res.status(404).json({mensaje:' Actor no econtrado!!'})
   });
 
 router.post("/api/actores/", async (req, res) => {
@@ -28,6 +28,7 @@ router.post("/api/actores/", async (req, res) => {
         Apellido: req.body.Apellido,
         FechaNacimiento: req.body.FechaNacimiento,
         Nacionalidad: req.body.Nacionalidad,
+        Premios: req.body.Premios
 
       });
       res.status(200).json(data.dataValues); // devolvemos el registro agregado!
@@ -52,7 +53,8 @@ router.put("/api/actores/:id", async (req, res) => {
           "Nombre",
           "Apellido",
           "FechaNacimiento",
-          "Nacionalidad"
+          "Nacionalidad",
+          "Premios"
         ],
         where: { IdActor: req.params.id },
       });
@@ -64,6 +66,7 @@ router.put("/api/actores/:id", async (req, res) => {
       item.Apellido = req.body.Apellido;
       item.FechaNacimiento = req.body.FechaNacimiento;
       item.Nacionalidad = req.body.Nacionalidad;
+      item.Premios = req.body.Premios;
 
       await item.save();
       res.sendStatus(200);
