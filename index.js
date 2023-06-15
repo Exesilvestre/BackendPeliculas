@@ -1,10 +1,14 @@
 const express = require("express");
+const cors = require("cors"); // Agrega esta línea para importar el módulo cors
 
 
 require("./base-orm/sqlite-init");  // crear base si no existe
 // crear servidor
 const app = express();
 app.use(express.json()); // para poder leer json en el body
+
+// Agrega el middleware de CORS antes de las rutas
+app.use(cors());
 
 
 

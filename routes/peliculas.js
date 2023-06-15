@@ -5,10 +5,46 @@ const { Op, ValidationError } = require("sequelize");
 const db = require("../base-orm/sequelize-init");
 
 router.get("/api/peliculas", async function (req, res, next) {
-  let data = await db.peliculas.findAll({
-    attributes: ["IdPelicula", "Nombre","FechaEstreno", "CantidadPersonajes"],
-  });
-  res.json(data);
+  // #swagger.tags = ['Articulos']
+  // #swagger.summary = 'obtiene todos los Articulos'
+  // consulta de articulos con filtros y paginacion
+
+  if (req.query.Pagina) {
+    let where = {};
+    if (req.query.Nombre != undefined && req.query.Nombre !== "") {
+      where.Nombre = {
+        [Op.like]: "%" + req.query.Nombre + "%",
+      };
+    }
+    const Pagina = req.query.Pagina ?? 1;
+    const TamañoPagina = 10;
+    const { count, rows } = await db.peliculas.findAndCountAll({
+      attributes: [
+        "IdPelicula",
+        "Nombre",
+        "FechaEstreno",
+        "CantidadPersonajes",
+      ],
+      order: [["Nombre", "ASC"]],
+      where,
+      offset: (Pagina - 1) * TamañoPagina,
+      limit: TamañoPagina,
+    });
+
+    return res.json({ Items: rows, RegistrosTotal: count });
+    
+  } else {
+    let items = await db.peliculas.findAll({
+      attributes: [
+        "IdPelicula",
+        "Nombre",
+        "FechaEstreno",
+        "CantidadPersonajes",
+      ],
+      order: [["Nombre", "ASC"]],
+    });
+    res.json(items);
+  }
 });
 
 
