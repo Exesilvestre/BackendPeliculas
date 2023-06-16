@@ -4,11 +4,53 @@ const { Op, ValidationError } = require("sequelize");
 
 const db = require("../base-orm/sequelize-init");
 
-router.get("/api/directores", async function (req, res, next) {
+/*router.get("/api/directores", async function (req, res, next) {
   let data = await db.directores.findAll({
     attributes: ["IdDirector", "Nombre","FechaNacimiento", "Documento"],
   });
   res.json(data);
+});*/
+router.get("/api/directores", async function (req, res, next) {
+  // #swagger.tags = ['Directores']
+  // #swagger.summary = 'obtiene todos los Directores'
+  // consulta de directores con filtros y paginacion
+
+  if (req.query.Pagina) {
+    let where = {};
+    if (req.query.Nombre != undefined && req.query.Nombre !== "") {
+      where.Nombre = {
+        [Op.like]: "%" + req.query.Nombre + "%",
+      };
+    }
+    const Pagina = req.query.Pagina ?? 1;
+    const TamañoPagina = 10;
+    const { count, rows } = await db.directores.findAndCountAll({
+      attributes: [
+        "IdDirector",
+        "Nombre",
+        "FechaNacimiento",
+        "Documento",
+      ],
+      order: [["Nombre", "ASC"]],
+      where,
+      offset: (Pagina - 1) * TamañoPagina,
+      limit: TamañoPagina,
+    });
+
+    return res.json({ Items: rows, RegistrosTotal: count });
+    
+  } else {
+    let items = await db.directores.findAll({
+      attributes: [
+        "IdDirector",
+        "Nombre",
+        "FechaNacimiento",
+        "Documento",
+      ],
+      order: [["Nombre", "ASC"]],
+    });
+    res.json(items);
+  }
 });
 
 
