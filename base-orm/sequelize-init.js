@@ -222,8 +222,8 @@ const actores = sequelize.define(
           msg: "Nombre es requerido",
         },
         len: {
-          args: [0, 30],
-          msg: "Nombre debe ser tipo carateres, entre 0 y 30 de longitud",
+          args: [3, 30],
+          msg: "Nombre debe ser tipo carateres, entre 3 y 30 de longitud",
         },
       },
     },
@@ -237,8 +237,8 @@ const actores = sequelize.define(
             msg: "Apellido es requerido",
           },
           len: {
-            args: [0, 30],
-            msg: "Apellido debe contener SOLO caracteres, entre 0 y 30 de longitud",
+            args: [4, 30],
+            msg: "Apellido debe contener SOLO caracteres, entre 4 y 30 de longitud",
           },
         },
       },
@@ -260,8 +260,8 @@ const actores = sequelize.define(
             msg: "Nacionalidad es requerida",
           },
           len: {
-            args: [0, 30],
-            msg: "Nacionalidad debe ser tipo carateres, entre 0 y 30 de longitud",
+            args: [4, 30],
+            msg: "Nacionalidad debe ser tipo carateres, entre 4 y 30 de longitud",
           },
         },
       },
@@ -273,9 +273,9 @@ const actores = sequelize.define(
   {
     // pasar a mayusculas
     hooks: {
-      beforeValidate: function (actor, options) {
-        if (typeof actor.Nombre === "string") {
-            actor.Nombre = actor.Nombre.toUpperCase().trim();
+      beforeValidate: function (actores, options) {
+        if (typeof actores.Nombre === "string") {
+            actores.Nombre = actores.Nombre.toUpperCase().trim();
         }
       },
     },
@@ -290,6 +290,6 @@ module.exports = {
     directores,
     series,
     cortos,
-    actores
+    actores,
   };
   

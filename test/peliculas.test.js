@@ -41,7 +41,7 @@ describe("GET /api/peliculas", () => {
           }),
         ])
       );
-    }, 15000);
+    });
   });
   
   
@@ -60,7 +60,7 @@ describe("GET /api/peliculas/:id", () => {
           CantidadPersonajes: expect.any(Number)
         })
       );
-    }, 15000);
+    });
   });
   
 
@@ -74,7 +74,7 @@ describe("POST /api/peliculas", () => {
           Nombre: expect.any(String),
           FechaEstreno: expect.any(String),
           CantidadPersonajes: expect.any(Number)
-        }, 15000)
+        })
       );
     });
   });
@@ -85,7 +85,7 @@ describe("PUT /api/peliculas/:id", () => {
     it("Deberia devolver la pelicula con el id 1 modificado", async () => {
       const res = await request(app).put("/api/peliculas/1").send(peliculaModificacion);
       expect(res.statusCode).toEqual(200);
-    }, 15000);
+    });
   });
   
   
@@ -104,7 +104,7 @@ describe("DELETE /api/peliculas/:id", () => {
       //   })
       // );
   
-    }, 15000);
+    });
   });
 // Ejecutar la función afterAll después de todas las pruebas
 afterAll(async () => {

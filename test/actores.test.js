@@ -85,7 +85,7 @@ describe("POST /api/actores", () => {
             FechaNacimiento: expect.any(String),
             Nacionalidad: expect.any(String),
             Premios: expect.any(Number),
-        }, 15000)
+        })
       );
     });
   });
@@ -108,7 +108,7 @@ describe("DELETE /api/actores/:id", () => {
       
      
   
-    }, 15000);
+    });
   });
 afterAll(async () => {
   await resetDatabase();

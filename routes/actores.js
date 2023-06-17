@@ -5,10 +5,50 @@ const { ValidationError } = require("sequelize");
 const db = require("../base-orm/sequelize-init");
 
 router.get("/api/actores", async function (req, res, next) {
-  let data = await db.actores.findAll({
-    attributes: ["IdActor", "Nombre", "Apellido","FechaNacimiento", "Nacionalidad", "Premios"],
-  });
-  res.json(data);
+  // #swagger.tags = ['Directores']
+  // #swagger.summary = 'obtiene todos los Directores'
+  // consulta de directores con filtros y paginacion
+
+  if (req.query.Pagina) {
+    let where = {};
+    if (req.query.Nombre != undefined && req.query.Nombre !== "") {
+      where.Nombre = {
+        [Op.like]: "%" + req.query.Nombre + "%",
+      };
+    }
+    const Pagina = req.query.Pagina ?? 1;
+    const TamañoPagina = 10;
+    const { count, rows } = await db.actores.findAndCountAll({
+      attributes: [
+        "IdActor",
+        "Nombre",
+        "Apellido",
+        "FechaNacimiento",
+        "Nacionalidad",
+        "Premios",
+      ],
+      order: [["Nombre", "ASC"]],
+      where,
+      offset: (Pagina - 1) * TamañoPagina,
+      limit: TamañoPagina,
+    });
+
+    return res.json({ Items: rows, RegistrosTotal: count });
+    
+  } else {
+    let items = await db.actores.findAll({
+      attributes: [
+        "IdActor",
+        "Nombre",
+        "Apellido",
+        "FechaNacimiento",
+        "Nacionalidad",
+        "Premios",
+      ],
+      order: [["Nombre", "ASC"]],
+    });
+    res.json(items);
+  }
 });
 
 

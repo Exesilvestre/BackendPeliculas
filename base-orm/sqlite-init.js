@@ -149,24 +149,24 @@ if (!existe) {
   );
   console.log("tabla Actores creada!");
   await db.run(`
-  INSERT INTO actores (IdActor, Nombre, Apellido, FechaNacimiento, Nacionalidad, Premios)
-  VALUES 
-    (1, "Bryan", "Cranston", "1956-03-07", "Estados Unidos", 9),
-    (2, "Aaron", "Paul", "1979-27-08", "Estados Unidos", 5),
-    (3, "Giancarlo", "Esposito", "1958-04-26", "Dinamarca", 7),
-    (4, "Karl", "Urban", "1972-06-07", "Nueva Zelanda", 12),
-    (5, "Erin", "Moriarty", "1994-06-24", "Estados Unidos", 2),
-    (6, "Andrew", "Lincoln", "1973-09-14", "Reino Unido", 3),
-    (7, "Norman", "Reedus", "1969-01-06", "Estados Unidos", 8),
-    (8, "Travis", "Fimmel", "1979-07-15", "Estados Unidos", 0),
-    (9, "Katheryn", "Winnick", "1977-12-17", "Canada", 4),
-    (10, "Owen", "Wilson", "1968-11-18", "Estados Unidos", 2),
-    (11, "Paul", "Newman", "1925-01-26", "Estados Unidos", 8),
-    (12, "Rhea", "Seehorn", "1972-05-12", "Estados Unidos", 3),
-    (13, "Jonathan", "Banks", "1947-01-31", "Estados Unidos", 10),
-    (14, "Louis", "Hofmann", "1997-06-03", "Alemania", 6),
-    (15, "Lisa", "Vicari", "1997-02-11", "Alemania", 6)
-`);
+        INSERT INTO actores (IdActor, Nombre, Apellido, FechaNacimiento, Nacionalidad, Premios)
+        VALUES 
+          (1, "Bryan", "Cranston", "1956-03-07", "Estados Unidos", 9),
+          (2, "Aaron", "Paul", "1979-27-08", "Estados Unidos", 5),
+          (3, "Giancarlo", "Esposito", "1958-04-26", "Dinamarca", 7),
+          (4, "Karl", "Urban", "1972-06-07", "Nueva Zelanda", 12),
+          (5, "Erin", "Moriarty", "1994-06-24", "Estados Unidos", 2),
+          (6, "Andrew", "Lincoln", "1973-09-14", "Reino Unido", 3),
+          (7, "Norman", "Reedus", "1969-01-06", "Estados Unidos", 8),
+          (8, "Travis", "Fimmel", "1979-07-15", "Estados Unidos", 0),
+          (9, "Katheryn", "Winnick", "1977-12-17", "Canada", 4),
+          (10, "Owen", "Wilson", "1968-11-18", "Estados Unidos", 2),
+          (11, "Paul", "Newman", "1925-01-26", "Estados Unidos", 8),
+          (12, "Rhea", "Seehorn", "1972-05-12", "Estados Unidos", 3),
+          (13, "Jonathan", "Banks", "1947-01-31", "Estados Unidos", 10),
+          (14, "Louis", "Hofmann", "1997-06-03", "Alemania", 6),
+          (15, "Lisa", "Vicari", "1997-02-11", "Alemania", 6)`
+  );
 }
 
 
