@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ValidationError } = require("sequelize");
+const { Op, ValidationError } = require("sequelize");
 
 const db = require("../base-orm/sequelize-init");
 

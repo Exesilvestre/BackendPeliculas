@@ -7,6 +7,24 @@ async function CrearBaseSiNoExiste() {
   //await db.open(process.env.base);
 
   let existe = false;
+  let res2 = null;
+
+  res2 = await db.get(
+    "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'usuarios'",
+    []
+  );
+  if (res2.contar > 0) existe = true;
+  if (!existe) {
+    await db.run(
+      "CREATE table usuarios( IdUsuario INTEGER PRIMARY KEY AUTOINCREMENT, User text NOT NULL UNIQUE, Passwd text NOT NULL);"
+    );
+    console.log("tabla usuarios creada!");
+    await db.run(
+      "insert into usuarios values	(1,'admin','123'),(2,'juan','123');"
+    );
+  }
+
+  existe = false;
   let res = null;
 
   res = await db.get(

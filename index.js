@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors"); // Agrega esta línea para importar el módulo cors
 
 
+
 require("./base-orm/sqlite-init");  // crear base si no existe
 // crear servidor
 const app = express();
@@ -9,6 +10,8 @@ app.use(express.json()); // para poder leer json en el body
 
 // Agrega el middleware de CORS antes de las rutas
 app.use(cors());
+
+
 
 
 
@@ -31,6 +34,9 @@ app.use(seriesRouter);
 
 const cortosRouter = require("./routes/cortos");
 app.use(cortosRouter);
+
+
+
 
 // levantar servidor
 if (!module.parent) {   // si no es llamado por otro modulo, es decir, si es el modulo principal -> levantamos el servidor

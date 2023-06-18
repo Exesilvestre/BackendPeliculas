@@ -5,11 +5,47 @@ const { Op, ValidationError } = require("sequelize");
 const db = require("../base-orm/sequelize-init");
 
 router.get("/api/cortos", async function (req, res, next) {
-    let data = await db.cortos.findAll({
-      attributes: ["IdCorto", "Nombre", "FechaEstreno", "duracionMinutos"],
+  // #swagger.tags = ['Directores']
+  // #swagger.summary = 'obtiene todos los Directores'
+  // consulta de directores con filtros y paginacion
+
+  if (req.query.Pagina) {
+    let where = {};
+    if (req.query.Nombre != undefined && req.query.Nombre !== "") {
+      where.Nombre = {
+        [Op.like]: "%" + req.query.Nombre + "%",
+      };
+    }
+    const Pagina = req.query.Pagina ?? 1;
+    const TamañoPagina = 10;
+    const { count, rows } = await db.cortos.findAndCountAll({
+      attributes: [
+        "IdCorto",
+        "Nombre",
+        "FechaEstreno",
+        "duracionMinutos",
+      ],
+      order: [["Nombre", "ASC"]],
+      where,
+      offset: (Pagina - 1) * TamañoPagina,
+      limit: TamañoPagina,
     });
-    res.json(data);
-  });
+
+    return res.json({ Items: rows, RegistrosTotal: count });
+    
+  } else {
+    let items = await db.cortos.findAll({
+      attributes: [
+        "IdCorto",
+        "Nombre",
+        "FechaEstreno",
+        "duracionMinutos",
+      ],
+      order: [["Nombre", "ASC"]],
+    });
+    res.json(items);
+  }
+});
   
   
 router.get("/api/cortos/:id", async function (req, res, next) {

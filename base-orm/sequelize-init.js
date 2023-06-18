@@ -86,10 +86,14 @@ const directores = sequelize.define(
           isBefore: new Date().toISOString().split("T")[0],
         },
       },
-    Documento: {
+      Documento: {
         type: DataTypes.INTEGER,
-        allowNull: false
-      },
+        allowNull: false,
+        validate: {
+          len: [7, 9] // Define la longitud mínima y máxima permitida
+        }
+      }
+      
   },
   {
     // pasar a mayusculas
@@ -123,8 +127,8 @@ const series = sequelize.define(
           msg: "Nombre es requerido",
         },
         len: {
-          args: [0, 30],
-          msg: "Nombre debe ser tipo carateres, entre 0 y 30 de longitud",
+          args: [4, 30],
+          msg: "Nombre debe ser tipo carateres, entre 4 y 30 de longitud",
         },
       },
     },
@@ -172,8 +176,8 @@ const cortos = sequelize.define(
           msg: "Nombre es requerido",
         },
         len: {
-          args: [0, 30],
-          msg: "Nombre debe ser tipo carateres, entre 0 y 30 de longitud",
+          args: [4, 30],
+          msg: "Nombre debe ser tipo carateres, entre 4 y 30 de longitud",
         },
       },
     },
@@ -222,8 +226,8 @@ const actores = sequelize.define(
           msg: "Nombre es requerido",
         },
         len: {
-          args: [3, 30],
-          msg: "Nombre debe ser tipo carateres, entre 3 y 30 de longitud",
+          args: [3, 55],
+          msg: "Nombre debe ser tipo carateres, entre 3 y 55 de longitud",
         },
       },
     },
